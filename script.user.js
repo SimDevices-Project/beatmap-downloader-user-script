@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         SimDevices Beatmap Downloader User Script
+// @name         SimDevices Osu Beatmap Downloader Plugin
 // @include      http*://osu.ppy.sh/*
 // @copyright    2020, Handle
 // @version      0.3
-// @description  Add extra download buttons on beatmap page for SimDevices Beatmap Downloader.
+// @description  Add extra download buttons on beatmap page for SimDevices Beatmap Downloader on osu.ppy.sh
 // @author       Handle
 // @namespace    https://github.com/SimDevices-Project
 // @grant        none

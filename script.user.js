@@ -3,7 +3,7 @@
 // @name:zh-CN         SimDevices Osu 谱面下载器插件
 // @include            http*://osu.ppy.sh/*
 // @copyright          2020, Handle
-// @version            0.4.2
+// @version            0.4.3
 // @description        Add extra download buttons on beatmap page for SimDevices Beatmap Downloader on osu.ppy.sh
 // @description:zh-CN  在 osu! 谱面下载页面上添加额外的按钮，可以唤醒下载器自动下载并导入谱面。
 // @author             Handle
@@ -32,8 +32,8 @@
 
   const insertHTML = (id = 1011011, type = 's') => {
     const htmlText = `
-    <a href="beatmap-downloader://s/${id}" class="btn-osu-big btn-osu-big--beatmapset-header">
-      <span class="btn-osu-big__content ">
+    <a href="beatmap-downloader://s/${id}" class="btn-osu-big btn-osu-big--beatmapset-header _beatmap_downloader_btn_">
+      <span class="btn-osu-big__content">
         <span class="btn-osu-big__left">
           <span class="btn-osu-big__text-top">启动</span>
           <span class="btn-osu-hint btn-osu-big__text-bottom">Beatmap Downloader</span>
@@ -54,9 +54,11 @@
   const loader = () => {
     const listenElementQueryWith = '.js-react--beatmapset-page'
     const listenElementDOM = document.querySelector(listenElementQueryWith)
+    const downloaderBtnQueryWith = '._beatmap_downloader_btn_'
+    const downloaderBtnDOM = document.querySelector(downloaderBtnQueryWith)
     if (listenElementDOM && listenElementDOM.dataset.reactTurbolinksLoaded === '1') {
       const formated = formatURL()
-      if (formated.isBeatmappage) {
+      if (formated.isBeatmappage && !downloaderBtnDOM) {
         insertHTML(formated.id, formated.type === 'beatmapset' ? 's' : 'b')
       }
     } else {

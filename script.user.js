@@ -2,10 +2,10 @@
 // @name         SimDevices Beatmap Downloader User Script
 // @include      http*://osu.ppy.sh/*
 // @copyright    2020, Handle
-// @version      0.1
+// @version      0.2
 // @description  Add extra download buttons on beatmap page for SimDevices Beatmap Downloader.
 // @author       Handle
-// @namespace    https://osu.ppy.sh/
+// @namespace    https://github.com/SimDevices-Project
 // @grant        none
 // ==/UserScript==
 

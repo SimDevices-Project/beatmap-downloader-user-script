@@ -3,7 +3,7 @@
 // @name:zh-CN         SimDevices Osu 谱面下载器插件
 // @include            http*://osu.ppy.sh/*
 // @copyright          2020, Handle
-// @version            0.4
+// @version            0.4.1
 // @description        Add extra download buttons on beatmap page for SimDevices Beatmap Downloader on osu.ppy.sh
 // @description:zh-CN  在 osu! 谱面下载页面上添加额外的按钮，可以唤醒下载器自动下载并导入谱面。
 // @author             Handle
@@ -20,7 +20,7 @@
     const [mainURL, argument] = URL.substr(URL.indexOf('//') + 2).split('#')
     const [host, type, id] = mainURL.split('/')
     if (type !== 'beatmapsets') {
-      return { isBeatmappage: false }
+      return { isBeatmappage: false, id: 0, type: '' }
     }
     const [mode, bid] = argument || []
     return {
@@ -57,7 +57,7 @@
     if (listenElementDOM && listenElementDOM.dataset.reactTurbolinksLoaded === '1') {
       const formated = formatURL()
       if (formated.isBeatmappage) {
-        insertHTML(id, formated.type === 'beatmapset' ? 's' : 'b')
+        insertHTML(formated.id, formated.type === 'beatmapset' ? 's' : 'b')
       }
     } else {
       timer = requestAnimationFrame(loader)

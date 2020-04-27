@@ -3,7 +3,7 @@
 // @name:zh-CN         SimDevices Osu 谱面下载器插件
 // @include            http*://osu.ppy.sh/*
 // @copyright          2020, Handle
-// @version            0.5.0
+// @version            0.5.1
 // @description        Add extra download buttons on beatmap page for SimDevices Beatmap Downloader on osu.ppy.sh
 // @description:zh-CN  在 osu! 谱面下载页面上添加额外的按钮，可以唤醒下载器自动下载并导入谱面。
 // @author             Handle
@@ -192,12 +192,12 @@
     qTipDOM.style.top = `${y}px`
   }
 
-  const insertSearchPageDownloadBtns = () => {
+  const insertSearchPageDownloadBtns = (target = document) => {
     /**
      * @type {NodeListOf<HTMLDivElement>}
      */
-    const beatmapsetPannels = document.querySelectorAll('.beatmapset-panel')
-    beatmapsetPannels.forEach((beatmapsetPannel) => {
+    const beatmapsetPannels = target.querySelectorAll('.beatmapset-panel')
+    const addDownloadBtnToPannel = (beatmapsetPannel) => {
       if (beatmapsetPannel.querySelector(`.${searchPageBtnClassName}`)) {
         return
       }
@@ -243,7 +243,8 @@
 
       downloadBtnToBind.addEventListener('mouseleave', hideTip)
       downloadBtnToBind.addEventListener('mouseout', hideTip)
-    })
+    }
+    beatmapsetPannels.forEach(addDownloadBtnToPannel)
   }
 
   let timer = 0
@@ -267,7 +268,21 @@
       const formated = formatURL()
       if (formated.type === 'beatmapsearch') {
         insertSearchPageDownloadTip()
-        insertSearchPageDownloadBtns()
+        const options = {
+          childList: true,
+        }
+        const observer = new MutationObserver((mutationsList) => {
+          mutationsList.forEach((mutation) => {
+            switch (mutation.type) {
+              case 'childList':
+                if (mutation.addedNodes) {
+                  mutation.addedNodes.forEach(insertSearchPageDownloadBtns)
+                }
+                break
+            }
+          })
+        })
+        observer.observe(document.querySelector('.beatmapsets__content'), options)
       }
     } else {
       timer = requestAnimationFrame(loader)
